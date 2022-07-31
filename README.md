@@ -41,16 +41,6 @@ This is my go-to initial pre-commit configuration when setting up a new project.
     -   id: flake8
 ```
 
-### pylint:
-```
--   repo: https://github.com/PyCQA/pylint
-    rev: v2.14.5
-    hooks:
-        - id: pylint
-          args:
-            - --disable=unused-argument,missing-docstring
-```
-
 ### mypy:
 ```
 -   repo: https://github.com/pre-commit/mirrors-mypy
@@ -63,17 +53,31 @@ This is my go-to initial pre-commit configuration when setting up a new project.
             - --ignore-missing-imports
 ```
 
+### pylint
+```
+-   repo: local
+    hooks:
+    -   id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        types: [python]
+        require_serial: true
+        args:
+          - --disable=unused-argument,missing-docstring,redefined-outer-name,invalid-name
+```
+
 
 ## Example usage in `poetry` project:
 
-Save `pre-commit-config.yaml` to your project's root directory.
+Curl `pre-commit-config.yaml` to your project's root directory.
 
 Add `pre-commit` package to your dev dependencies with
 ```
 poetry add pre-commit --dev
 ```
 
-Run a single hook on a particular file
+Run a particular hook on a particular file
 ```
 poetry run pre-commit run <hook_id> --files <file>
 ```
